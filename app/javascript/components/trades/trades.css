@@ -33,6 +33,23 @@ body {
   padding: 8px;
 }
 
+.stats-wrapper .grid {
+  width: 20%;
+  margin: 0 auto 50px auto;
+  text-align: left;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 20px;
+  justify-content: center;
+  justify-items: center;
+  border: 1px solid #a3a3a3;
+  padding: 8px;
+}
+
+.grid p {
+  margin-left: 20px;
+}
+
 .btm-center {
   grid-column: 1 / -1;
   margin: auto;
@@ -64,7 +81,7 @@ button:hover {
   border-radius: 10px;
 }
 
-.filter-wrapper, .form-wrapper {
+.filter-wrapper, .form-wrapper, .stats-wrapper {
   text-align: center;
 }
 
@@ -111,6 +128,10 @@ button:hover {
 
 .user-login-bar {
   font-size: 18px;
+}
+
+.win-percent {
+  text-align: center;
 }
 
 @media (max-width: 1740px) {

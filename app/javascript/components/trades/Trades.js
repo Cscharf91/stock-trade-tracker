@@ -7,6 +7,8 @@ import Form from './Form';
 import './trades.css';
 import Filters from './Filters';
 import useDidUpdateEffect from './useDidUpdateEffect';
+import Stats from './Stats';
+
 
 const Trades = () => {
   const [trades, setTrades] = useState([]);
@@ -14,6 +16,7 @@ const Trades = () => {
   const [loaded, setLoaded] = useState(false);
   const [searchList, setSearchList] = useState({});
   const [searchResults, setSearchResults] = useState([]);
+  const [dataList, setDataList] = useState({});
   // const [filterDOM, setFilterDOM] = useState(
   //   <button className="filter-toggle-btn" onClick={() => {
   //     setFilterDOM(
@@ -44,13 +47,17 @@ const Trades = () => {
     // }
   }, [searchResults.length])
 
-  const getTrades = async () => {
+  const getTrades = () => {
     Axios.get('/api/v1/trades.json')
       .then((resp) => {
           if (resp.data.data.length > 0) {
-          setTrades(resp.data.data);
-          setLoaded(true);
-        }
+            console.log(`whooo I'm here again`, searchResults.length)
+            setTrades(resp.data.data);
+            setLoaded(true);
+          } 
+          if (searchResults.length < 1) {
+            getData(resp.data.data);
+          }
       })
       .catch((err) => console.log(err));
   }
@@ -109,6 +116,7 @@ const Trades = () => {
       }
     }
     setSearchResults(newList);
+    getData(newList);
     console.log(searchResults);
   }
   
@@ -151,6 +159,32 @@ const Trades = () => {
     )
   }
 
+  const getData = (tradesList = trades) => {
+    console.log("trades: ", tradesList);
+    let newHalfWins = 0;
+    let newFullWins = 0;
+    let newHalfLosses = 0;
+    let newFullLosses = 0;
+    for (let i = 0; i < tradesList.length; i++) {
+      // console.log("trade performance: ", tradesList[i].attributes.performance);
+      if (tradesList[i].attributes.performance === "Half Win") {
+        newHalfWins++
+      } else if (tradesList[i].attributes.performance === "Full Win") {
+        newFullWins++
+      } else if (tradesList[i].attributes.performance === "Half Loss") {
+        newHalfLosses++
+      } else {
+        newFullLosses++
+      }
+    }
+    setDataList({
+      halfWins: newHalfWins,
+      fullWins: newFullWins,
+      halfLosses: newHalfLosses,
+      fullLosses: newFullLosses
+    })
+  }
+
   let tradesHead;
   if (loaded) {
     tradesHead = <TradeHeader/>
@@ -187,9 +221,12 @@ const Trades = () => {
         handleSubmit={handleSubmit}
       />
       <Filters
-            searchList={searchList}
-            submitSearch={submitSearch}
-            handleSearchChange={handleSearchChange}
+        searchList={searchList}
+        submitSearch={submitSearch}
+        handleSearchChange={handleSearchChange}
+      />
+      <Stats 
+        dataList={dataList}
       />
       <div className="trades-grid">
         {tradesHead}
