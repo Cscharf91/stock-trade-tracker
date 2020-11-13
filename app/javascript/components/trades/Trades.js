@@ -4,7 +4,6 @@ import ReactDOM from 'react-dom'
 import TradeHeader from '../trade/TradeHeader';
 import Trade from '../trade/Trade';
 import Form from './Form';
-import './trades.css';
 import Filters from './Filters';
 import useDidUpdateEffect from './useDidUpdateEffect';
 import Stats from './Stats';
