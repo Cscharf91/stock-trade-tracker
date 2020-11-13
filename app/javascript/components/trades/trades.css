@@ -23,7 +23,8 @@
 .stock-container {
   width: 60%;
   margin: auto;
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
   justify-content: center;
   border: 1px solid #a3a3a3;
 }
@@ -31,4 +32,8 @@
 .stock-container > * {
   text-align: center;
   margin: 20px;
+}
+
+.symbol-caps {
+  text-transform: uppercase;
 }

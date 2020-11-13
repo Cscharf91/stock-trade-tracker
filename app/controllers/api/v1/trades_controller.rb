@@ -48,6 +48,18 @@ module Api
         end
       end
 
+      # def search
+      #   if params[:market] == "Account Number"
+      #     trades = Trade.find_by(market: params[:market])
+      #   end
+      #   if params[:search_type] == "Last Name"
+      #     trades += Trade.find_by(lname: params[:search])
+      #   end
+      #   if params[:search_type] == "Date of Birth"
+      #     trades += Trade.find_by(dob: params[:search])
+      #   end
+      # end
+
       private
 
       def trade_params
