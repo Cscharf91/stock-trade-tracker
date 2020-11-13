@@ -6,17 +6,20 @@
     <%= csp_meta_tag %>
 
     <%= stylesheet_link_tag 'application', media: 'all' %>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito&display=swap" rel="stylesheet"> 
     <%= javascript_pack_tag 'application' %>
     <%= javascript_pack_tag 'index' %>
   </head>
 
   <body>
-    <nav>
+    <nav class="header-wrapper">
+        <h1 class="header">Trade Tracker</h1>
+        <p class="subheader">How are your stocks doing?</p>
       <% if user_signed_in? %>
-          <%= link_to('Logout', destroy_user_session_path, method: :delete) %>          
+          <%= link_to('Logout', destroy_user_session_path, method: :delete, class: "user-login-bar") %>          
         <% else %>
-          <%= link_to('Login', new_user_session_path)  %> |
-          <%= link_to('Sign Up', new_user_registration_path)  %>  
+          <%= link_to('Login', new_user_session_path, class: "user-login-bar")  %> |
+          <%= link_to('Sign Up', new_user_registration_path, class: "user-login-bar")  %>  
         <% end %>
     </nav>
     <%= yield %>

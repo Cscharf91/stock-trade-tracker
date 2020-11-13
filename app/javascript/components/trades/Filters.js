@@ -2,7 +2,9 @@ import React from 'react';
 
 const Filters = (props) => {
   return (
-    <div className="form-wrapper">
+    <div className="filter-wrapper">
+      {/* <button className="x-out" onClick={props.xOut}>X</button> */}
+      <h3 className="filters-title">Search for Trades</h3>
       <form onSubmit={props.submitSearch}>
       <div className="field">
           <label htmlFor="market">Trading With or Against the Market:</label>
@@ -39,7 +41,7 @@ const Filters = (props) => {
             <option value="Full Loss">Full Loss</option>
           </select>
         </div>
-        <div className="field">
+        <div className="field btm-center">
           <button type="submit">Search</button>
         </div>
       </form>

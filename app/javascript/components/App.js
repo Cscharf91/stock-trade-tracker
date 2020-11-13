@@ -4,7 +4,6 @@ import Trades from './trades/Trades'
 import Trade from './trade/Trade'
 
 const App = () => {
-    const [currentUser, setCurrentUser] = useState(null);
     return (
         <Switch>
             <Route exact path="/" component={Trades}/>

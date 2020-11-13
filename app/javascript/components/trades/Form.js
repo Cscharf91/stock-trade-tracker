@@ -3,6 +3,7 @@ import React from 'react';
 const Form = (props) => {
   return (
     <div className="form-wrapper">
+      <h3 className="tradeform-title">Enter Trades</h3>
       <form onSubmit={props.handleSubmit}>
         <div className="field">
           <label htmlFor="stock_symbol">Stock Symbol:</label>
@@ -48,7 +49,7 @@ const Form = (props) => {
             <option value="Full Loss">Full Loss</option>
           </select>
         </div>
-        <div className="field">
+        <div className="field btm-center">
           <button type="submit">Add Trade</button>
         </div>
       </form>

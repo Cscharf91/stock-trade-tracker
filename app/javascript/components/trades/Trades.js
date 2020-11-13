@@ -1,20 +1,48 @@
 import Axios from 'axios';
 import React, { useEffect, useState } from 'react';
+import ReactDOM from 'react-dom'
 import TradeHeader from '../trade/TradeHeader';
 import Trade from '../trade/Trade';
 import Form from './Form';
 import './trades.css';
 import Filters from './Filters';
+import useDidUpdateEffect from './useDidUpdateEffect';
 
 const Trades = () => {
   const [trades, setTrades] = useState([]);
   const [newTrade, setNewTrade] = useState({});
   const [loaded, setLoaded] = useState(false);
   const [searchList, setSearchList] = useState({});
+  const [searchResults, setSearchResults] = useState([]);
+  // const [filterDOM, setFilterDOM] = useState(
+  //   <button className="filter-toggle-btn" onClick={() => {
+  //     setFilterDOM(
+  //     <Filters
+  //         searchList={searchList}
+  //         submitSearch={submitSearch}
+  //         handleSearchChange={handleSearchChange}
+  //         xOut={xOut}
+  //     />)
+  //   }}>Filters</button>
+  // )
 
   useEffect(() => {
     getTrades();
   }, [])
+
+  useDidUpdateEffect(() => {
+    // if (searchResults.length > 0) {
+      const grid = document.querySelector('.trades-grid');
+      grid.remove();
+      ReactDOM.render(
+        <div className="trades-grid">
+          <TradeHeader/>
+          {searchGrid}
+        </div>,
+        document.body.appendChild(document.createElement('div')),
+      )
+    // }
+  }, [searchResults.length])
 
   const getTrades = async () => {
     Axios.get('/api/v1/trades.json')
@@ -34,7 +62,6 @@ const Trades = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(newTrade.trade_change);
 
     const csrfToken = document.querySelector('[name=csrf-token]').textContent;
     Axios.defaults.headers.common['X-CSRF-TOKEN'] = csrfToken;
@@ -43,7 +70,6 @@ const Trades = () => {
       .then(resp => {
         setTrades([resp.data.data, ...trades])
         setNewTrade({stock_symbol: '', trade_date: '', market: '', volume: '', trade_change: '', performance: ''})
-        console.log(resp);
       })
       .catch(err => console.log(err));
   }
@@ -82,7 +108,8 @@ const Trades = () => {
         newList.push(tradesList[i]);
       }
     }
-    console.log(newList);
+    setSearchResults(newList);
+    console.log(searchResults);
   }
   
   const getSearchKeys = () => {
@@ -110,6 +137,20 @@ const Trades = () => {
     return keysList;
   }
 
+  const xOut = () => {
+    setFilterDOM(
+      <button className="filter-toggle-btn" onClick={() => {
+        setFilterDOM(
+        <Filters
+            searchList={searchList}
+            submitSearch={submitSearch}
+            handleSearchChange={handleSearchChange}
+            xOut={xOut}
+        />)
+      }}>Filters</button>
+    )
+  }
+
   let tradesHead;
   if (loaded) {
     tradesHead = <TradeHeader/>
@@ -127,19 +168,28 @@ const Trades = () => {
     }
   })
 
+  const searchGrid = searchResults.map((item) => {
+    return (
+      <Trade
+      key={item.attributes.stock_symbol}
+      tradeID={item.id}
+      attributes={item.attributes}
+      deleteTrade={deleteTrade}
+      />
+    );
+  });
+
   return (
     <div className="home">
-      <h1 className="header">Stock Demo</h1>
-      <p className="subheader">How are your stock trades doing?</p>
       <Form
         trade={newTrade}
         handleChange={handleChange}
         handleSubmit={handleSubmit}
       />
       <Filters
-        searchList={searchList}
-        submitSearch={submitSearch}
-        handleSearchChange={handleSearchChange}
+            searchList={searchList}
+            submitSearch={submitSearch}
+            handleSearchChange={handleSearchChange}
       />
       <div className="trades-grid">
         {tradesHead}
