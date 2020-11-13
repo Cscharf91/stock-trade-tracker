@@ -18,13 +18,14 @@ class RegistrationsController < Devise::RegistrationsController
       warden.custom_failure!
       render json: { trade.errors.messages }, status: 422
     end
+  end
 
   def destroy
     @user = User.find_by_email(user_params[:email])
     if @user.destroy
-      render :json=> { success: 'user was successfully deleted' }, :status=>201
+      render :json=> { success: 'user was successfully deleted' }, :status => 201
     else
-      render :json=> { error: 'user could not be deleted' }, :status=>422
+      render :json=> { error: 'user could not be deleted' }, :status => 422
     end
   end
 
