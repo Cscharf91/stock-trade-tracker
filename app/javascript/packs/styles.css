@@ -16,10 +16,11 @@ body {
 .header-wrapper {
   text-align: center;
   border-bottom: 1px solid black;
+  padding: 10px;
 }
 
 .filter-wrapper form {
-  width: 20%;
+  width: 80%;
   margin: 0 auto 50px auto;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -31,7 +32,7 @@ body {
 }
 
 .stats-wrapper .grid {
-  width: 20%;
+  width: 40%;
   margin: 0 auto 50px auto;
   text-align: left;
   display: grid;
@@ -129,16 +130,54 @@ button:hover {
 
 .win-percent {
   text-align: center;
+  display: grid;
+  align-items: center;
+}
+
+.subheader {
+  font-style: italic;
+}
+
+.filter-stats-grid {
+  width: 60%;
+  margin: auto;
+  display: grid;
+  align-items: center;
+  grid-template-columns: 1fr 1fr;
 }
 
 @media (max-width: 1740px) {
   .form-wrapper form {
-    max-width: 60%;
+    /* max-width: 60%; */
     grid-template-columns: repeat(3, 1fr);
     grid-gap: 20px;
   }
 
   .filter-wrapper form {
-    width: 40%;
+    grid-template-columns: 1fr;
+    /* width: 40%; */
+  }
+  .stats-wrapper .grid {
+    display: block;
+    text-align: center;
+    width: 90%;
+  }
+}
+
+@media (max-width: 1200px) {
+  .stock-container {
+    width: 100%;
+  }
+}
+
+@media (max-width: 700px) {
+  .form-wrapper form {
+    width: 100%;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .filter-stats-grid {
+    width: 100%;
+    grid-template-columns: 1fr;
   }
 }

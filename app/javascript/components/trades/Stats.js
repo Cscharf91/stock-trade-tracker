@@ -29,8 +29,11 @@ const Stats = (props) => {
           <p><strong>Full Losses: </strong>{props.dataList.fullLosses}</p>
         </div>
         <div className="win-percent">
+          <div>
           <p><strong>Overall Win %: </strong></p>
           <h1>{winPercentage}</h1>
+
+          </div>
         </div>
       </div>
     </div>

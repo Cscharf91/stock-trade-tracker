@@ -16,24 +16,12 @@ const Trades = () => {
   const [searchList, setSearchList] = useState({});
   const [searchResults, setSearchResults] = useState([]);
   const [dataList, setDataList] = useState({});
-  // const [filterDOM, setFilterDOM] = useState(
-  //   <button className="filter-toggle-btn" onClick={() => {
-  //     setFilterDOM(
-  //     <Filters
-  //         searchList={searchList}
-  //         submitSearch={submitSearch}
-  //         handleSearchChange={handleSearchChange}
-  //         xOut={xOut}
-  //     />)
-  //   }}>Filters</button>
-  // )
 
   useEffect(() => {
     getTrades();
   }, [])
 
   useDidUpdateEffect(() => {
-    // if (searchResults.length > 0) {
       const grid = document.querySelector('.trades-grid');
       grid.remove();
       ReactDOM.render(
@@ -43,7 +31,6 @@ const Trades = () => {
         </div>,
         document.body.appendChild(document.createElement('div')),
       )
-    // }
   }, [searchResults.length])
 
   const getTrades = () => {
@@ -165,7 +152,6 @@ const Trades = () => {
     let newHalfLosses = 0;
     let newFullLosses = 0;
     for (let i = 0; i < tradesList.length; i++) {
-      // console.log("trade performance: ", tradesList[i].attributes.performance);
       if (tradesList[i].attributes.performance === "Half Win") {
         newHalfWins++
       } else if (tradesList[i].attributes.performance === "Full Win") {
@@ -219,14 +205,16 @@ const Trades = () => {
         handleChange={handleChange}
         handleSubmit={handleSubmit}
       />
-      <Filters
-        searchList={searchList}
-        submitSearch={submitSearch}
-        handleSearchChange={handleSearchChange}
-      />
-      <Stats 
-        dataList={dataList}
-      />
+      <div className="filter-stats-grid">
+        <Filters
+          searchList={searchList}
+          submitSearch={submitSearch}
+          handleSearchChange={handleSearchChange}
+        />
+        <Stats 
+          dataList={dataList}
+        />
+      </div>
       <div className="trades-grid">
         {tradesHead}
         {tradesGrid}
