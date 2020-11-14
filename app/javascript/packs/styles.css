@@ -1,9 +1,16 @@
 body {
   margin: 0;
+  overflow-x: hidden;
+}
+
+.home {
+  display: grid;
+  width: 70%;
+  margin: auto;
 }
 
 .form-wrapper form {
-  width: 70%;
+  /* width: 70%; */
   margin: 0 auto 50px auto;
   display: grid;
   grid-template-columns: repeat(7, 1fr);
@@ -20,7 +27,8 @@ body {
 }
 
 .filter-wrapper form {
-  width: 80%;
+  /* width: 80%; */
+  height: 150px;
   margin: 0 auto 50px auto;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -28,11 +36,13 @@ body {
   justify-content: center;
   justify-items: center;
   border: 1px solid #a3a3a3;
+  border-right: none;
   padding: 8px;
 }
 
 .stats-wrapper .grid {
-  width: 40%;
+  /* width: 40%; */
+  height: 150px;
   margin: 0 auto 50px auto;
   text-align: left;
   display: grid;
@@ -51,6 +61,13 @@ body {
 .btm-center {
   grid-column: 1 / -1;
   margin: auto;
+}
+
+.btm-right {
+  grid-row: 1 / -1;
+  grid-column: -1;
+  align-self: end;
+  margin-top: 30px;
 }
 
 button {
@@ -95,7 +112,7 @@ button:hover {
 }
 
 .stock-container {
-  width: 60%;
+  /* width: 60%; */
   margin: auto;
   display: grid;
   grid-template-columns: repeat(7, 1fr);
@@ -134,12 +151,16 @@ button:hover {
   align-items: center;
 }
 
+.header {
+  font-size: 34px;
+}
+
 .subheader {
   font-style: italic;
 }
 
 .filter-stats-grid {
-  width: 60%;
+  width: 100%;
   margin: auto;
   display: grid;
   align-items: center;
@@ -149,18 +170,18 @@ button:hover {
 @media (max-width: 1740px) {
   .form-wrapper form {
     /* max-width: 60%; */
-    grid-template-columns: repeat(3, 1fr);
+    /* grid-template-columns: repeat(3, 1fr); */
     grid-gap: 20px;
   }
 
   .filter-wrapper form {
-    grid-template-columns: 1fr;
+    /* grid-template-columns: 1fr; */
     /* width: 40%; */
   }
   .stats-wrapper .grid {
-    display: block;
+    /* display: block; */
     text-align: center;
-    width: 90%;
+    /* width: 90%; */
   }
 }
 
@@ -168,9 +189,14 @@ button:hover {
   .stock-container {
     width: 100%;
   }
+
+  .home {
+    width: 100%;
+    display: block;
+  }
 }
 
-@media (max-width: 700px) {
+@media (max-width: 1000px) {
   .form-wrapper form {
     width: 100%;
     grid-template-columns: 1fr 1fr;
@@ -179,5 +205,13 @@ button:hover {
   .filter-stats-grid {
     width: 100%;
     grid-template-columns: 1fr;
+  }
+
+  .stock-container {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .hide-mobile {
+    display: none;
   }
 }

@@ -7,7 +7,7 @@ const Filters = (props) => {
       <h3 className="filters-title">Search for Trades</h3>
       <form onSubmit={props.submitSearch}>
       <div className="field">
-          <label htmlFor="market">Trading With or Against the Market:</label>
+          <label htmlFor="market">Market:</label>
           <select onChange={props.handleSearchChange} value={props.searchList.market} name="market">
             <option value=""></option>
             <option value="Trading With">Trading With</option>
@@ -41,7 +41,7 @@ const Filters = (props) => {
             <option value="Full Loss">Full Loss</option>
           </select>
         </div>
-        <div className="field btm-center">
+        <div className="field btm-right">
           <button type="submit">Search</button>
         </div>
       </form>

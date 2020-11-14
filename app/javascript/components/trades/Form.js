@@ -14,7 +14,7 @@ const Form = (props) => {
           <input onChange={props.handleChange} type="date" value={props.trade.trade_date} name="trade_date" />
         </div>
         <div className="field">
-          <label htmlFor="market">Trading With or Against the Market:</label>
+          <label htmlFor="market">Market:</label>
           <p className="tip">"Trading with" means a long with an up market, or vice versa. "Trading against" is a long with a down market. </p>
           <select onChange={props.handleChange} value={props.trade.market} name="market">
             <option value=""></option>
