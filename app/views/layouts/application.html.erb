@@ -17,9 +17,6 @@
       <% react_component("Header") %>
       <% if user_signed_in? %>
           <%= link_to('Logout', destroy_user_session_path, method: :delete, class: "user-login-bar") %>          
-        <% else %>
-          <%= link_to('Login', new_user_session_path, class: "user-login-bar")  %> |
-          <%= link_to('Sign Up', new_user_registration_path, class: "user-login-bar")  %>  
         <% end %>
     </nav>
     <%= yield %>
