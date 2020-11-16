@@ -14,8 +14,7 @@
 
   <body>
     <nav class="header-wrapper">
-        <h1 class="header">Trade Tracker</h1>
-        <p class="subheader">How are your stocks doing?</p>
+      <% react_component("Header") %>
       <% if user_signed_in? %>
           <%= link_to('Logout', destroy_user_session_path, method: :delete, class: "user-login-bar") %>          
         <% else %>

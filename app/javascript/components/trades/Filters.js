@@ -35,8 +35,11 @@ const Filters = (props) => {
           <label htmlFor="performance">Profit/Loss:</label>
           <select onChange={props.handleSearchChange} value={props.searchList.performance} name="performance">
             <option value=""></option>
-            <option value="Half Win">Half Win</option>
             <option value="Full Win">Full Win</option>
+            <option value="Half Win">Half Win</option>
+            <option value="1/4 Win">1/4 Win</option>
+            <option value="Scratch">Scratch</option>
+            <option value="1/4 Loss">1/4 Loss</option>
             <option value="Half Loss">Half Loss</option>
             <option value="Full Loss">Full Loss</option>
           </select>

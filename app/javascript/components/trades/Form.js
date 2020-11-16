@@ -1,13 +1,14 @@
 import React from 'react';
 
 const Form = (props) => {
+  const performance = parseFloat(props.trade.performance).toFixed(2);
   return (
     <div className="form-wrapper">
       <h3 className="tradeform-title">Enter Trades</h3>
       <form onSubmit={props.handleSubmit}>
         <div className="field">
           <label htmlFor="stock_symbol">Stock Symbol:</label>
-          <input onChange={props.handleChange} className="symbol-caps" type="text" value={props.trade.stock_symbol} name="stock_symbol" />
+          <input onChange={props.handleChange} className="symbol-caps" type="text" value={props.trade.stock_symbol} name="stock_symbol" required />
         </div>
         <div className="field">
           <label htmlFor="trade_date">Trade Date:</label>
@@ -40,14 +41,19 @@ const Form = (props) => {
           </select>
         </div>
         <div className="field">
-          <label htmlFor="performance">Profit/Loss:</label>
-          <select onChange={props.handleChange} value={props.trade.performance} name="performance">
+          <label htmlFor="performance">Profit/Loss: {performance}</label>
+          <input type="range" name="performance" value={props.trade.performance}
+            onChange={props.handleChange} min="-1" max="1" step="0.05" />
+          {/* <select onChange={props.handleChange} value={props.trade.performance} name="performance">
             <option value=""></option>
-            <option value="Half Win">Half Win</option>
             <option value="Full Win">Full Win</option>
+            <option value="Half Win">Half Win</option>
+            <option value="1/4 Win">1/4 Win</option>
+            <option value="Scratch">Scratch</option>
+            <option value="1/4 Loss">1/4 Loss</option>
             <option value="Half Loss">Half Loss</option>
             <option value="Full Loss">Full Loss</option>
-          </select>
+          </select> */}
         </div>
         <div className="field btm-center">
           <button type="submit">Add Trade</button>

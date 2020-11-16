@@ -13,7 +13,8 @@ body {
   /* width: 70%; */
   margin: 0 auto 50px auto;
   display: grid;
-  grid-template-columns: repeat(7, 1fr);
+  grid-template-columns: repeat(6, 1fr);
+  grid-gap: 10px;
   justify-content: center;
   justify-items: center;
   border: 1px solid #a3a3a3;
@@ -28,7 +29,7 @@ body {
 
 .filter-wrapper form {
   /* width: 80%; */
-  height: 150px;
+  height: 200px;
   margin: 0 auto 50px auto;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -42,11 +43,11 @@ body {
 
 .stats-wrapper .grid {
   /* width: 40%; */
-  height: 150px;
+  height: 200px;
   margin: 0 auto 50px auto;
   text-align: left;
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   grid-gap: 20px;
   justify-content: center;
   justify-items: center;
@@ -55,7 +56,7 @@ body {
 }
 
 .grid p {
-  margin-left: 20px;
+  /* margin-left: 20px; */
 }
 
 .btm-center {
@@ -100,6 +101,14 @@ button:hover {
   text-align: center;
 }
 
+.green {
+  color: green;
+}
+
+.red {
+  color: red;
+}
+
 .tip {
   display: none;
   font-size: 12px;
@@ -131,14 +140,29 @@ button:hover {
 
 .stock-win {
   background: darkgreen;
+  width: 30%;
+  justify-self: center;
   padding: 5px;
   color: white;
+  border-radius: 40px;
+}
+
+.scratch {
+  background: rgb(82, 82, 82);
+  width: 30%;
+  justify-self: center;
+  padding: 5px;
+  color: white;
+  border-radius: 40px;
 }
 
 .stock-lose {
   background: rgb(100, 0, 0);
   padding: 5px;
+  width: 30%;
+  justify-self: center;
   color: white;
+  border-radius: 40px;
 }
 
 .user-login-bar {

@@ -7,15 +7,22 @@ import Form from './Form';
 import Filters from './Filters';
 import useDidUpdateEffect from './useDidUpdateEffect';
 import Stats from './Stats';
+import Header from '../Header';
 
 
 const Trades = () => {
   const [trades, setTrades] = useState([]);
-  const [newTrade, setNewTrade] = useState({});
+  const [newTrade, setNewTrade] = useState({
+    performance: 0
+  });
   const [loaded, setLoaded] = useState(false);
   const [searchList, setSearchList] = useState({});
   const [searchResults, setSearchResults] = useState([]);
-  const [dataList, setDataList] = useState({});
+  const [dataList, setDataList] = useState({
+    totalTrades: 0,
+    tradesList: []
+  });
+  const [avg, setAvg] = useState("");
 
   useEffect(() => {
     getTrades();
@@ -23,25 +30,67 @@ const Trades = () => {
 
   useDidUpdateEffect(() => {
       const grid = document.querySelector('.trades-grid');
+      const homeGrid = document.querySelector('.home');
       grid.remove();
       ReactDOM.render(
         <div className="trades-grid">
           <TradeHeader/>
           {searchGrid}
         </div>,
-        document.body.appendChild(document.createElement('div')),
+        homeGrid.appendChild(document.createElement('div')),
       )
   }, [searchResults.length])
+
+  useEffect(() => {
+    if (dataList.totalTrades === 0) {
+    console.log('useEffect, tradesTrades === 0')
+      setAvg("Not Available");
+    } else {
+      console.log('useEffect, tradesTrades !== 0')
+      getWinsAndLosses();
+    }
+  }, [dataList]);
+
+  const getWinsAndLosses = () => {
+    const tradesList = dataList.tradesList;
+    const newWinners = [];
+    const newLosers = [];
+    const newScratches = [];
+    for (let i = 0; i < tradesList.length; i++) {
+      const performance = tradesList[i].attributes.performance;
+      if (performance > 0) {
+        newWinners.push(performance)
+      } else if (performance < 0) {
+        newLosers.push(performance)
+      } else {
+        newScratches.push(performance)
+      }
+    }
+    findAvg(newWinners, newLosers);
+  }
+
+  const findAvg = (wins, losses) => {
+    const totalTrades = dataList.totalTrades;
+    let winTotal = 0;
+    let lossTotal = 0;
+    for (let i = 0; i < wins.length; i++) {
+      winTotal += parseFloat(wins[i].trim());
+    }
+    for (let i = 0; i < losses.length; i++) {
+      lossTotal += parseFloat(losses[i]);
+    }
+    const avgTotal = winTotal + lossTotal;
+    setAvg((avgTotal / totalTrades).toFixed(2));
+  }
 
   const getTrades = () => {
     Axios.get('/api/v1/trades.json')
       .then((resp) => {
           if (resp.data.data.length > 0) {
-            console.log(`whooo I'm here again`, searchResults.length)
             setTrades(resp.data.data);
             setLoaded(true);
           } 
-          if (searchResults.length < 1) {
+          if (trades.length < 1) {
             getData(resp.data.data);
           }
       })
@@ -50,7 +99,11 @@ const Trades = () => {
 
   const handleChange = (e) => {
     e.preventDefault();
-    setNewTrade({...newTrade, [e.target.name]: e.target.value})
+    if (e.target.name === "stock_symbol") {
+      setNewTrade({...newTrade, stock_symbol: e.target.value.toUpperCase()});
+    } else {
+      setNewTrade({...newTrade, [e.target.name]: e.target.value})
+    }
   }
 
   const handleSubmit = (e) => {
@@ -61,8 +114,9 @@ const Trades = () => {
 
     Axios.post('/api/v1/trades', newTrade)
       .then(resp => {
-        setTrades([resp.data.data, ...trades])
-        setNewTrade({stock_symbol: '', trade_date: '', market: '', volume: '', trade_change: '', performance: ''})
+        setTrades([resp.data.data, ...trades]);
+        getData([resp.data.data, ...trades]);
+        setNewTrade({stock_symbol: '', trade_date: '', market: '', volume: '', trade_change: '', performance: 0});
       })
       .catch(err => console.log(err));
   }
@@ -77,6 +131,7 @@ const Trades = () => {
       if (trade.id === id) {
         tradesArr.splice(index, 1);
         setTrades(tradesArr);
+        getData(tradesArr);
       }
     })
   }
@@ -145,28 +200,50 @@ const Trades = () => {
     )
   }
 
-  const getData = (tradesList = trades) => {
-    console.log("trades: ", tradesList);
-    let newHalfWins = 0;
-    let newFullWins = 0;
-    let newHalfLosses = 0;
-    let newFullLosses = 0;
-    for (let i = 0; i < tradesList.length; i++) {
-      if (tradesList[i].attributes.performance === "Half Win") {
-        newHalfWins++
-      } else if (tradesList[i].attributes.performance === "Full Win") {
-        newFullWins++
-      } else if (tradesList[i].attributes.performance === "Half Loss") {
-        newHalfLosses++
-      } else {
-        newFullLosses++
+  const getData = (tradesList) => {
+    let scratches = 0;
+    let quarterUp = 0;
+    let quarterDown = 0;
+    let halfUp = 0;
+    let halfDown = 0;
+    let threeQuartUp = 0;
+    let threeQuartDown = 0;
+    let fullUp = 0;
+    let fullDown = 0;
+    for(let i = 0; i < tradesList.length; i++) {
+      if (tradesList[i].attributes.performance == 0) {
+        scratches++;
+      } else if (tradesList[i].attributes.performance > 0 && tradesList[i].attributes.performance <= 0.25) {
+        quarterUp++;
+      } else if (tradesList[i].attributes.performance > 0.25 && tradesList[i].attributes.performance <= 0.5) {
+        halfUp++;
+      } else if (tradesList[i].attributes.performance > 0.5 && tradesList[i].attributes.performance <= 0.75) {
+        threeQuartUp++;
+      } else if (tradesList[i].attributes.performance > 0.75 && tradesList[i].attributes.performance <= 1) {
+        fullUp++;
+      } else if (tradesList[i].attributes.performance < 0 && tradesList[i].attributes.performance >= -0.25) {
+        quarterDown++;
+      } else if (tradesList[i].attributes.performance < -0.25 && tradesList[i].attributes.performance >= -0.5) {
+        halfDown++;
+      } else if (tradesList[i].attributes.performance < -0.5 && tradesList[i].attributes.performance >= -0.75) {
+        threeQuartDown++;
+      } else if (tradesList[i].attributes.performance < -0.75 && tradesList[i].attributes.performance >= -1) {
+        fullDown++;
       }
     }
+    console.log('getting data:', tradesList);
     setDataList({
-      halfWins: newHalfWins,
-      fullWins: newFullWins,
-      halfLosses: newHalfLosses,
-      fullLosses: newFullLosses
+      scratches: scratches,
+      quarterUp: quarterUp,
+      quarterDown: quarterDown,
+      halfUp: halfUp,
+      halfDown: halfDown,
+      threeQuartUp: threeQuartUp,
+      threeQuartDown: threeQuartDown,
+      fullUp: fullUp,
+      fullDown: fullDown,
+      totalTrades: tradesList.length,
+      tradesList: tradesList
     })
   }
 
@@ -178,7 +255,7 @@ const Trades = () => {
     if (trades !== null) {
       return (
         <Trade
-          key={item.attributes.stock_symbol}
+          key={item.id}
           tradeID={item.id}
           attributes={item.attributes}
           deleteTrade={deleteTrade}
@@ -190,7 +267,7 @@ const Trades = () => {
   const searchGrid = searchResults.map((item) => {
     return (
       <Trade
-      key={item.attributes.stock_symbol}
+      key={item.id}
       tradeID={item.id}
       attributes={item.attributes}
       deleteTrade={deleteTrade}
@@ -200,6 +277,7 @@ const Trades = () => {
 
   return (
     <div className="home">
+      <Header />
       <Form
         trade={newTrade}
         handleChange={handleChange}
@@ -213,6 +291,7 @@ const Trades = () => {
         />
         <Stats 
           dataList={dataList}
+          avg={avg}
         />
       </div>
       <div className="trades-grid">

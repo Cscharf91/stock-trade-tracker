@@ -4,14 +4,12 @@ const Trade = (props) => {
   const [stockPerformance, setStockPerformance] = useState('');
   useEffect(() => {
     const performance = props.attributes.performance;
-    if (performance === "Half Win") {
+    if (performance > 0) {
       setStockPerformance("stock-win");
-    } else if (performance === "Full Win") {
-      setStockPerformance("stock-win");
-    } else if (performance === "Half Loss") {
+    } else if (performance < 0) {
       setStockPerformance("stock-lose");
-    } else if (performance === "Full Loss") {
-      setStockPerformance("stock-lose");
+    } else {
+      setStockPerformance("scratch")
     }
   }, [])
   return (
