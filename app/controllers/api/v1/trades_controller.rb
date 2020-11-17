@@ -63,7 +63,7 @@ module Api
       private
 
       def trade_params
-        params.require(:trade).permit(:stock_symbol, :trade_date, :market, :volume, :performance, :trade_change, :user_id)
+        params.require(:trade).permit(:stock_symbol, :trade_date, :market, :volume, :performance, :trade_change, :user_id, :day_or_overnight)
       end
     end
   end

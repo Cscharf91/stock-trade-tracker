@@ -23,7 +23,7 @@ body {
   /* width: 70%; */
   margin: 0 auto 50px auto;
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
+  grid-template-columns: repeat(7, 1fr);
   grid-gap: 10px;
   justify-content: center;
   justify-items: center;
@@ -75,10 +75,9 @@ body {
 }
 
 .btm-right {
-  grid-row: 1 / -1;
   grid-column: -1;
   align-self: end;
-  margin-top: 30px;
+  margin-bottom: 14px;
 }
 
 button {
@@ -120,8 +119,52 @@ button:hover {
 }
 
 .tip {
+  width: 200px;
+  background: rgb(32, 32, 32);
+  color: white;
+  padding: 10px;
+  border: 1px solid #a3a3a3;
+  border-radius: 10px;
+  position: fixed;
+  font-size: 15px;
+}
+
+.fade-in {
+	opacity: 1;
+	animation-name: fadeInOpacity;
+	animation-iteration-count: 1;
+	animation-timing-function: ease-in;
+	animation-duration: 0.25s;
+}
+
+.fade-out {
+	opacity: 1;
+	animation-name: fadeOutOpacity;
+	animation-iteration-count: 1;
+	animation-timing-function: ease-out;
+	animation-duration: 0.25s;
+}
+
+@keyframes fadeInOpacity {
+	0% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
+	}
+}
+
+@keyframes fadeOutOpacity {
+	0% {
+		opacity: 1;
+	}
+	100% {
+		opacity: 0;
+	}
+}
+
+.off {
   display: none;
-  font-size: 12px;
 }
 
 .field {

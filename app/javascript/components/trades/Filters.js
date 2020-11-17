@@ -9,7 +9,7 @@ const Filters = (props) => {
       <div className="field">
           <label htmlFor="market">Market:</label>
           <select onChange={props.handleSearchChange} value={props.searchList.market} name="market">
-            <option value=""></option>
+            <option value="">Select Option</option>
             <option value="Trading With">Trading With</option>
             <option value="Trading Against">Trading Against</option>
           </select>
@@ -17,7 +17,7 @@ const Filters = (props) => {
         <div className="field">
           <label htmlFor="volume">5/10 Volume %:</label>
           <select onChange={props.handleSearchChange} value={props.searchList.volume} name="volume">
-            <option value=""></option>
+            <option value="">Select Option</option>
             <option value="5x Volume">5x Volume</option>
             <option value="10x Volume">10x Volume</option>
           </select>
@@ -25,23 +25,33 @@ const Filters = (props) => {
         <div className="field">
           <label htmlFor="trade_change">Stock % Change:</label>
           <select onChange={props.handleSearchChange} value={props.searchList.trade_change} name="trade_change">
-            <option value=""></option>
+            <option value="">Select Option</option>
             <option value="Under 10%">Under 10%</option>
             <option value="10-20%">10-20%</option>
             <option value="20%+">20%+</option>
           </select>
         </div>
         <div className="field">
+          <label htmlFor="day_or_overnight">Day Trade or Overnight:</label>
+          <select onChange={props.handleSearchChange} value={props.searchList.day_or_overnight} name="day_or_overnight">
+            <option value="">Select Option</option>
+            <option value="Day Trade">Day Trade</option>
+            <option value="Overnight">Overnight</option>
+          </select>
+        </div>
+        <div className="field">
           <label htmlFor="performance">Profit/Loss:</label>
           <select onChange={props.handleSearchChange} value={props.searchList.performance} name="performance">
-            <option value=""></option>
-            <option value="Full Win">Full Win</option>
-            <option value="Half Win">Half Win</option>
-            <option value="1/4 Win">1/4 Win</option>
-            <option value="Scratch">Scratch</option>
-            <option value="1/4 Loss">1/4 Loss</option>
-            <option value="Half Loss">Half Loss</option>
-            <option value="Full Loss">Full Loss</option>
+            <option value="">Select Option</option>
+            <option value="1">+$0 - 0.25</option>
+            <option value="2">+0.25 - 0.50</option>
+            <option value="3">+$0.50 - 0.75</option>
+            <option value="4">+$0.75 - 1</option>
+            <option value="0">Scratch (+$0)</option>
+            <option value="5">-$0 - 0.25</option>
+            <option value="6">-0.25 - 0.50</option>
+            <option value="7">-$0.50 - 0.75</option>
+            <option value="8">-$0.75 - 1</option>
           </select>
         </div>
         <div className="field btm-right">

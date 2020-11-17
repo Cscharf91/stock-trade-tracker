@@ -43,10 +43,8 @@ const Trades = () => {
 
   useEffect(() => {
     if (dataList.totalTrades === 0) {
-    console.log('useEffect, tradesTrades === 0')
       setAvg("Not Available");
     } else {
-      console.log('useEffect, tradesTrades !== 0')
       getWinsAndLosses();
     }
   }, [dataList]);
@@ -89,12 +87,37 @@ const Trades = () => {
           if (resp.data.data.length > 0) {
             setTrades(resp.data.data);
             setLoaded(true);
+            getProfitRange(resp.data.data);
           } 
           if (trades.length < 1) {
             getData(resp.data.data);
           }
       })
       .catch((err) => console.log(err));
+  }
+
+  const getProfitRange = (tradesList) => {
+    for(let i = 0; i < tradesList.length; i++) {
+      if (tradesList[i].attributes.performance == 0) {
+        tradesList[i].attributes.profitRange = "0";
+      } else if (tradesList[i].attributes.performance > 0 && tradesList[i].attributes.performance <= 0.25) {
+        tradesList[i].attributes.profitRange = "1";
+      } else if (tradesList[i].attributes.performance > 0.25 && tradesList[i].attributes.performance <= 0.5) {
+        tradesList[i].attributes.profitRange = "2";
+      } else if (tradesList[i].attributes.performance > 0.5 && tradesList[i].attributes.performance <= 0.75) {
+        tradesList[i].attributes.profitRange = "3";
+      } else if (tradesList[i].attributes.performance > 0.75 && tradesList[i].attributes.performance <= 1) {
+        tradesList[i].attributes.profitRange = "4";
+      } else if (tradesList[i].attributes.performance < 0 && tradesList[i].attributes.performance >= -0.25) {
+        tradesList[i].attributes.profitRange = "5";
+      } else if (tradesList[i].attributes.performance < -0.25 && tradesList[i].attributes.performance >= -0.5) {
+        tradesList[i].attributes.profitRange = "6";
+      } else if (tradesList[i].attributes.performance < -0.5 && tradesList[i].attributes.performance >= -0.75) {
+        tradesList[i].attributes.profitRange = "7";
+      } else if (tradesList[i].attributes.performance < -0.75 && tradesList[i].attributes.performance >= -1) {
+        tradesList[i].attributes.profitRange = "8";
+      }
+    }
   }
 
   const handleChange = (e) => {
@@ -125,15 +148,14 @@ const Trades = () => {
     const id = e.target.id;
     const tradesArr = [...trades];
     Axios.delete(`/api/v1/trades/${id}`)
-      .then(resp => console.log(resp))
+      .then(resp => tradesArr.forEach((trade, index) => {
+        if (trade.id === id) {
+          tradesArr.splice(index, 1);
+          setTrades(tradesArr);
+          getData(tradesArr);
+        }
+      }))
       .catch(err => console.log(err));
-    tradesArr.forEach((trade, index) => {
-      if (trade.id === id) {
-        tradesArr.splice(index, 1);
-        setTrades(tradesArr);
-        getData(tradesArr);
-      }
-    })
   }
 
   const handleSearchChange = (e) => {
@@ -151,14 +173,14 @@ const Trades = () => {
       if ((keys[0] !== "" && tradesList[i].attributes.market === searchList.market || keys[0] === "") &&
       (keys[1] !== "" && tradesList[i].attributes.volume === searchList.volume || keys[1] === "") &&
       (keys[2] !== "" && tradesList[i].attributes.trade_change === searchList.trade_change || keys[2] === "") &&
-      (keys[3] !== "" && tradesList[i].attributes.performance === searchList.performance || keys[3] === "")
+      (keys[3] !== "" && tradesList[i].attributes.profitRange === searchList.performance || keys[3] === "") &&
+      (keys[4] !== "" && tradesList[i].attributes.day_or_overnight === searchList.day_or_overnight || keys[4] === "")
       ) {
         newList.push(tradesList[i]);
       }
     }
     setSearchResults(newList);
     getData(newList);
-    console.log(searchResults);
   }
   
   const getSearchKeys = () => {
@@ -183,21 +205,12 @@ const Trades = () => {
     } else {
       keysList.push("");
     }
+    if (searchList.day_or_overnight) {
+      keysList.push(searchList.day_or_overnight);
+    } else {
+      keysList.push("");
+    }
     return keysList;
-  }
-
-  const xOut = () => {
-    setFilterDOM(
-      <button className="filter-toggle-btn" onClick={() => {
-        setFilterDOM(
-        <Filters
-            searchList={searchList}
-            submitSearch={submitSearch}
-            handleSearchChange={handleSearchChange}
-            xOut={xOut}
-        />)
-      }}>Filters</button>
-    )
   }
 
   const getData = (tradesList) => {
@@ -231,7 +244,6 @@ const Trades = () => {
         fullDown++;
       }
     }
-    console.log('getting data:', tradesList);
     setDataList({
       scratches: scratches,
       quarterUp: quarterUp,
