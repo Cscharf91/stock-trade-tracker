@@ -131,6 +131,7 @@ const Trades = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    console.log(newTrade);
 
     const csrfToken = document.querySelector('[name=csrf-token]').textContent;
     Axios.defaults.headers.common['X-CSRF-TOKEN'] = csrfToken;
