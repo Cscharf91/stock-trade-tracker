@@ -140,6 +140,7 @@ const Trades = () => {
       .then(resp => {
         setTrades([resp.data.data, ...trades]);
         getData([resp.data.data, ...trades]);
+        getProfitRange([resp.data.data, ...trades]);
         setNewTrade({stock_symbol: '', trade_date: '', market: '', volume: '', trade_change: '', performance: 0});
       })
       .catch(err => console.log(err));
